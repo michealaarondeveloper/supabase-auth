@@ -23,10 +23,8 @@ export default function NavbarMenu() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [UserInfo, setUserInfo] = useState<any>(null);
-  console.log(UserInfo, "UserInfo");
-  
+
   let userInformation = getUserInfo("user_information");
-  console.log(userInformation, "userInformation");
 
   useEffect(() => {
     if (userInformation) {
@@ -42,14 +40,14 @@ export default function NavbarMenu() {
       toast.success("Successfully Logged Out");
       router.push("/");
       localStorage.removeItem("user_information");
-      setUserInfo(null)
+      setUserInfo(null);
       getUser();
     }
   };
 
   const getUser = async () => {
     const getUser: Session | any = await supabase.auth.getSession();
-    if (getUser) {      
+    if (getUser) {
       setUser(getUser?.data);
     }
   };
@@ -61,8 +59,10 @@ export default function NavbarMenu() {
   return (
     <Navbar>
       <NavbarBrand>
-        {/* <AcmeLogo /> */}
-        <p className="font-bold text-inherit text-secondary-500"> Supabase Integration</p>
+        <p className="font-bold text-inherit text-secondary-500">
+          {" "}
+          Supabase Integration
+        </p>
       </NavbarBrand>
 
       <NavbarContent className="sm:flex gap-4" justify="center">
@@ -78,20 +78,6 @@ export default function NavbarMenu() {
         </NavbarItem>
       </NavbarContent>
 
-      {/* <NavbarContent as="div" justify="end">
-        <NavbarItem>
-          {UserInfo == null ? (
-            <Link color="foreground" href="/login">
-              Sign in
-            </Link>
-          ) : (
-            <Link color="foreground" href="#" onClick={Logout}>
-              Logout
-            </Link>
-          )}
-        </NavbarItem>
-      </NavbarContent> */}
-      
       <NavbarContent as="div" justify="end">
         <Dropdown placement="bottom">
           <DropdownTrigger>

@@ -18,7 +18,7 @@ import {
   Link,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { getUserInfo } from "@/lib/helper";
 
 // import {MailIcon} from './MailIcon.jsx';
@@ -56,16 +56,16 @@ const Login = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      let { data:user, error } = await supabase.auth.signInWithPassword({
+      let { data: user, error } = await supabase.auth.signInWithPassword({
         email: data?.email,
         password: data?.password,
       });
       if (user?.user != null) {
         toast.success("Successfully Logged in");
-        router?.push('/dashboard')
-        localStorage.setItem('user_information', JSON.stringify(user?.user));
-    }
-    if (error) {
+        router?.push("/dashboard");
+        localStorage.setItem("user_information", JSON.stringify(user?.user));
+      }
+      if (error) {
         toast.error(`${error.message}`);
         throw new Error(error.message);
       }
@@ -80,7 +80,6 @@ const Login = () => {
 
   return (
     <>
-      {/* <Button onPress={onOpen} color="primary">Open Modal</Button> */}
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -90,57 +89,67 @@ const Login = () => {
         <ModalContent>
           {(onClose) => (
             <>
-            {UserInfo == null ? <>
-              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
-              <ModalBody>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <Input
-                    color="secondary"
-                    autoFocus
-                    {...register("email")}
-                    label="Email"
-                    placeholder="Enter your email"
-                    variant="bordered"
-                  />
-                  {errors.email && (
-                    <span className="text-red-700">{errors.email.message}</span>
-                  )}
-                  <Spacer y={3} />
+              {UserInfo == null ? (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    Log in
+                  </ModalHeader>
+                  <ModalBody>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <Input
+                        color="secondary"
+                        autoFocus
+                        {...register("email")}
+                        label="Email"
+                        placeholder="Enter your email"
+                        variant="bordered"
+                      />
+                      {errors.email && (
+                        <span className="text-red-700">
+                          {errors.email.message}
+                        </span>
+                      )}
+                      <Spacer y={3} />
 
-                  <Input
-                    color="secondary"
-                    {...register("password")}
-                    label="Password"
-                    placeholder="Enter your password"
-                    type="password"
-                    variant="bordered"
-                  />
-                  {errors.password && (
-                    <span className="text-red-700">
-                      {errors.password.message}
-                    </span>
-                  )}
-                  <div className="flex py-2 px-1 justify-between">
-                  <span><span>
-                      Don’t have an account </span>
-                    <Link color="secondary" href="signup" size="sm">
-                       Open account
-                    </Link>
-                       </span>
-                  </div>
-                  <div className="flex justify-end gap-5">
-                    <Button color="danger" variant="flat" onPress={onClose}>
-                      Close
-                    </Button>
-                    <Button type="submit" color="secondary">
-                      Sign in
-                    </Button>
-                  </div>
-                </form>
-              </ModalBody>
-              </> : <>
-              <ModalHeader className="flex justify-center gap-1">Successfully Logged in</ModalHeader>
-              </>}
+                      <Input
+                        color="secondary"
+                        {...register("password")}
+                        label="Password"
+                        placeholder="Enter your password"
+                        type="password"
+                        variant="bordered"
+                      />
+                      {errors.password && (
+                        <span className="text-red-700">
+                          {errors.password.message}
+                        </span>
+                      )}
+                      <div className="flex py-2 px-1 justify-between">
+                        <span>
+                          <span>Don’t have an account </span>
+                          <Link color="secondary" href="signup" size="sm">
+                            Open account
+                          </Link>
+                        </span>
+                      </div>
+                      <div className="flex justify-end gap-5">
+                        <Button color="danger" variant="flat" onPress={onClose}>
+                          Close
+                        </Button>
+                        <Button type="submit" color="secondary">
+                          Sign in
+                        </Button>
+                      </div>
+                    </form>
+                  </ModalBody>
+                </>
+              ) : (
+                <>
+                  <ModalHeader className="flex justify-center gap-1">
+                    Successfully Logged in
+                  </ModalHeader>
+                </>
+              )}
             </>
           )}
         </ModalContent>

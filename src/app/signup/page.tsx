@@ -32,7 +32,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function SignUp() {
-    const router = useRouter()
+  const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState<any>(false);
   const {
@@ -44,27 +44,25 @@ export default function SignUp() {
   });
 
   const onSubmit = async (data: FormData) => {
-
     setIsLoading(true);
     try {
       const { data: user, error } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
-            data: {display_name: data?.name}
-          }
+          data: { display_name: data?.name },
+        },
       });
 
       if (error) {
         toast.error(`${error?.message}`);
         throw new Error(error.message);
       }
-      if(user?.user != null){
+      if (user?.user != null) {
         toast.success("Register successfully");
-        router?.push('/login')
-    }
-    
-} catch (error) {
+        router?.push("/login");
+      }
+    } catch (error) {
       console.error("Error signing up:", error);
     } finally {
       setIsLoading(false);
@@ -123,10 +121,12 @@ export default function SignUp() {
                   </span>
                 )}
                 <div className="flex py-2 px-1 justify-between">
-                    <span><span>Already have an account? </span>
-                  <Link color="secondary" href="login" size="sm">
+                  <span>
+                    <span>Already have an account? </span>
+                    <Link color="secondary" href="login" size="sm">
                       Sign In Now
-                  </Link></span>
+                    </Link>
+                  </span>
                 </div>
                 <div className="flex justify-end gap-5">
                   <Button color="danger" variant="flat" onPress={onClose}>

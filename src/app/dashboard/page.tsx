@@ -14,7 +14,7 @@ import {
   PopoverContent,
   Button,
   Card,
-  Skeleton
+  Skeleton,
 } from "@nextui-org/react";
 import { DeleteIcon } from "../icons/delete";
 import { toast } from "react-toastify";
@@ -112,7 +112,7 @@ const Dashboard = () => {
   }, []);
 
   const getCities = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       let { data: cities, error } = await supabase.from("cities").select(`
                *,
@@ -122,7 +122,7 @@ const Dashboard = () => {
            `);
       if (cities) {
         setCities(cities);
-        setIsLoading(false)
+        setIsLoading(false);
       }
       if (error) {
         throw new Error(error.message);
@@ -138,44 +138,47 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen flex flex-col justify-center items-center">
-      {isLoading ? 
-     <Card className="w-[550px] space-y-5 p-4" radius="lg">
-      <div className="space-y-3">
-        <Skeleton className="w-3/5 rounded-lg ">
-          <div className="h-3 w-3/5 rounded-lg bg-default-200"></div>
-        </Skeleton>
-        <Skeleton className="w-4/5 rounded-lg">
-          <div className="h-3 w-4/5 rounded-lg bg-default-200"></div>
-        </Skeleton>
-      </div>
-      <Skeleton className="rounded-lg">
-        <div className="h-24 rounded-lg bg-default-300"></div>
-      </Skeleton>
-    </Card>
-    : <> 
-      <div className="text-lg font-bold mb-2">
-        Welcome {UserInfo?.user_metadata?.display_name} - {UserInfo?.role !== "anon" ? "Agent" : "Owner"}
-      </div>
-      <div className="w-[550px]">
-        <h2 className="mb-4">Countries & Cities</h2>
-        <Table aria-label="Countries & Cities">
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.key}>{column.label}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={cities}>
-            {(item: any) => (
-              <TableRow key={item.key}>
-                {(columnKey) => (
-                  <TableCell>{renderCell(item, columnKey)}</TableCell>
+      {isLoading ? (
+        <Card className="w-[550px] space-y-5 p-4" radius="lg">
+          <div className="space-y-3">
+            <Skeleton className="w-3/5 rounded-lg ">
+              <div className="h-3 w-3/5 rounded-lg bg-default-200"></div>
+            </Skeleton>
+            <Skeleton className="w-4/5 rounded-lg">
+              <div className="h-3 w-4/5 rounded-lg bg-default-200"></div>
+            </Skeleton>
+          </div>
+          <Skeleton className="rounded-lg">
+            <div className="h-24 rounded-lg bg-default-300"></div>
+          </Skeleton>
+        </Card>
+      ) : (
+        <>
+          <div className="text-lg font-bold mb-2">
+            Welcome {UserInfo?.user_metadata?.display_name} -{" "}
+            {UserInfo?.role !== "anon" ? "Agent" : "Owner"}
+          </div>
+          <div className="w-[550px]">
+            <h2 className="mb-4">Countries & Cities</h2>
+            <Table aria-label="Countries & Cities">
+              <TableHeader columns={columns}>
+                {(column) => (
+                  <TableColumn key={column.key}>{column.label}</TableColumn>
                 )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      </> }
+              </TableHeader>
+              <TableBody items={cities}>
+                {(item: any) => (
+                  <TableRow key={item.key}>
+                    {(columnKey) => (
+                      <TableCell>{renderCell(item, columnKey)}</TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </>
+      )}
     </div>
   );
 };
